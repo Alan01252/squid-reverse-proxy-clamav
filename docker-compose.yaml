@@ -1,11 +1,11 @@
-version: "3.3"
+version: "3.5"
 services:
   squid:
     image: sameersbn/squid:3.3.8-23
     ports:
      - "8090:80"
     volumes:
-      - /path/to/squid.conf:/etc/squid3/squid.conf
+      - ./squid/squid.conf:/etc/squid3/squid.conf
       - /srv/docker/squid/cache:/var/spool/squid3
     restart: always
   webserver:
@@ -16,10 +16,4 @@ services:
     build: ./icap
     ports:
      - "1344:1344"
-    command: tail -f /dev/null
-    secrets:
-     - my_file_secret
-
-secrets:
-  my_file_secret:
-    file: my_file_secret.txt
+    command: service c-icap start && tail -f /dev/null
