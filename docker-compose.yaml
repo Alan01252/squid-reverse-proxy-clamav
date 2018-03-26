@@ -1,0 +1,25 @@
+version: "3.3"
+services:
+  squid:
+    image: sameersbn/squid:3.3.8-23
+    ports:
+     - "8090:80"
+    volumes:
+      - /srv/docker/squid/config/squid.conf:/etc/squid3/squid.conf
+      - /srv/docker/squid/cache:/var/spool/squid3
+    restart: always
+  webserver:
+    image: andygrunwald/simple-webserver:v1.1.1
+    ports:
+     - "8082:8082"
+  icap:
+    build: ./icap
+    ports:
+     - "1344:1344"
+    command: tail -f /dev/null
+    secrets:
+     - my_file_secret
+
+secrets:
+  my_file_secret:
+    file: my_file_secret.txt

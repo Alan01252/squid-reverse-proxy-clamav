@@ -1,0 +1,3 @@
+requests>=2.2.1
+python-magic>=0.4.10
+pyicap
