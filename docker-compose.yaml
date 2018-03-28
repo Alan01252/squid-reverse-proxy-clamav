@@ -3,17 +3,18 @@ services:
   squid:
     image: sameersbn/squid:3.3.8-23
     ports:
-     - "8090:80"
+     - "8090:443"
     volumes:
       - ./squid/squid.conf:/etc/squid3/squid.conf
+      - ./squid/myCA.pem:/etc/squid3/myCA.pem
       - /srv/docker/squid/cache:/var/spool/squid3
     restart: always
   webserver:
-    image: andygrunwald/simple-webserver:v1.1.1
+    build: ./webserver
     ports:
-     - "8082:8082"
+     - "8082:4443"
   icap:
     build: ./icap
     ports:
      - "1344:1344"
-    command: service c-icap start && tail -f /dev/null
+    command: tail -f /dev/null
